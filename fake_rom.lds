@@ -5,7 +5,7 @@ MEMORY
 {
 	/* Fake ROM area */
 	rom (rxa) : ORIGIN = 0x80000000, LENGTH = 512K
-	ram (wxa) : ORIGIN = 0x80180000, LENGTH = 512K
+	ram (wxa) : ORIGIN = 0x80080000, LENGTH = 512K
 }
 
 SECTIONS
@@ -107,7 +107,7 @@ SECTIONS
 
 	. = ALIGN(8);
 	_end = .;
-
+	
 	.stack :
 	{
 		. = ALIGN(16);
@@ -115,21 +115,4 @@ SECTIONS
 		_stack_top = .;
 	} >ram AT>ram
 	
-	/* Generate a link error if heap and stack don’t fit into RAM */
-	_Min_Heap_Size = 0x4000; /* required amount of heap */
-	_Min_Stack_Size = 0x4000; /* required amount of stack */
-
-	/* User_heap_stack section, used to check that there is enough RAM left */
-	._user_heap_stack :
-	{
-		. = ALIGN(8);
-
-        *(HEAP4) /* FreeRTOS heap4 */
-        
-        PROVIDE ( end = . );
-        PROVIDE ( _end = . );
-        . = . + _Min_Heap_Size;
-        . = . + _Min_Stack_Size;
-        . = ALIGN(8);
-	} >ram 
 }

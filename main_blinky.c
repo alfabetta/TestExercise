@@ -106,7 +106,7 @@ const char * const pcFailMessage = "Unexpected value received\r\n";
 
 	for( ;; )
 	{
-		xTaskCreate( prvQueueSendTask, "Tx", configMINIMAL_STACK_SIZE * 2U, NULL,
+		xTaskCreate( prvQueueSendTask, "Tx", configMINIMAL_STACK_SIZE * 4U, NULL,
 					mainQUEUE_SEND_TASK_PRIORITY, &CreatedTaskCoreMark );
 
 
@@ -143,13 +143,13 @@ int main_blinky( void )
 	vSendString( "Hello FreeRTOS!\n" );
 
 	/* Create the queue. */
-	xQueue = xQueueCreate( mainQUEUE_LENGTH, sizeof( uint32_t ) );
+	xQueue = xQueueCreate( mainQUEUE_LENGTH, sizeof( UBaseType_t ) );
 
 	if( xQueue != NULL )
 	{
 		/* Start the two tasks as described in the comments at the top of this
 		file. */
-		xTaskCreate( prvQueueReceiveTask, "Rx", configMINIMAL_STACK_SIZE * 2U, NULL,
+		xTaskCreate( prvQueueReceiveTask, "Rx", configMINIMAL_STACK_SIZE * 4U, NULL,
 					mainQUEUE_RECEIVE_TASK_PRIORITY, NULL );
 //		xTaskCreate( prvQueueSendTask, "Tx", configMINIMAL_STACK_SIZE * 2U, NULL,
 //					mainQUEUE_SEND_TASK_PRIORITY, NULL );
