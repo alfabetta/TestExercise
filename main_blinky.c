@@ -91,7 +91,6 @@ TaskHandle_t CreatedTaskCoreMark;
 
 static void prvQueueReceiveTask( void *pvParameters )
 {
-TickType_t xNextWakeTime;
 unsigned long ulReceivedValue;
 const unsigned long ulExpectedValue = 100UL;
 
@@ -101,8 +100,6 @@ const char * const pcFailMessage = "Unexpected value received\r\n";
 	/* Remove compiler warning about unused parameter. */
 	( void ) pvParameters;
 
-	/* Initialise xNextWakeTime - this only needs to be done once. */
-	xNextWakeTime = xTaskGetTickCount();
 
 	for( ;; )
 	{
@@ -130,7 +127,7 @@ const char * const pcFailMessage = "Unexpected value received\r\n";
 			vSendString( pcFailMessage );
 		}
 
-		vTaskDelayUntil( &xNextWakeTime, mainQUEUE_SEND_FREQUENCY_MS );
+		vTaskDelay( mainQUEUE_SEND_FREQUENCY_MS );
 
 
 	}
